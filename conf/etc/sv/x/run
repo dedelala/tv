@@ -1,4 +1,4 @@
 #!/bin/sh
 
-exec su -c startx blep >/dev/tty1
+exec su -c startx x >/dev/tty1
 
