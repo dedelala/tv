@@ -17,11 +17,11 @@ docker run -d --rm \
   --shm-size 2gb \
   --net host \
   --name fox \
-  fox:latest
+  dedelala/fox:latest
 
 docker run -d --rm \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
-  -v $HOME/snd:/root \
+  -v "$HOME/snd:/root" \
   -e DISPLAY=unix:0 \
   --device /dev/snd \
   --device /dev/dri \
@@ -29,5 +29,5 @@ docker run -d --rm \
   --memory 2gb \
   --shm-size 2gb \
   --name snd \
-  snd:latest snd-up.sh
+  dedelala/snd:latest snd-up.sh
 
