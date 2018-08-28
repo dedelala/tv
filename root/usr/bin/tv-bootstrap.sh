@@ -5,6 +5,7 @@ die() { echo "awww: $* not work soz"; exit 1; }
 u=$1
 [[ -n "$u" ]] || { echo "usage: $0 <userlogin>" >&2; exit 64; }
 
+chsh -s /bin/bash || die "root shell"
 useradd -G audio,video,docker -m -d /home/x -s /bin/zsh x || die "user x"
 useradd -G wheel,audio,video,kvm,xbuilder,socklog,docker,x \
   -m -d "/home/$u" -s /bin/zsh "$u" || die "user $u"

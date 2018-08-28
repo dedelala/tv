@@ -1,6 +1,6 @@
 #!/bin/bash
 
-xhost + 2>&1
+xhost +local:docker 2>&1
 
 docker run -d --rm \
   -v /etc/localtime:/etc/localtime:ro \
@@ -28,6 +28,9 @@ docker run -d --rm \
   --cpuset-cpus 0 \
   --memory 2gb \
   --shm-size 2gb \
+  --cpu-rt-runtime=950000 \
+  --cap-add=sys_nice \
+  --ulimit rtprio=99 \
   --name snd \
   dedelala/snd:latest snd-up.sh
 
