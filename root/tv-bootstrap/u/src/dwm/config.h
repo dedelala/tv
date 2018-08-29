@@ -27,7 +27,7 @@ static const Rule rules[] = {
 	 */
 	/* class           instance    title       tags mask     isfloating   monitor */
 	{ "Firefox",       NULL,       NULL,       1,            0,           -1 },
-	{ "calfjackhost",  NULL,       NULL,       1 << 1,       0,           -1 },
+	{ "calfjackhost",  NULL,       NULL,       1 << 1,       1,           -1 },
 };
 
 /* layout(s) */
@@ -57,6 +57,9 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_blue, "-nf", col_white, "-sb", col_pink, "-sf", col_white, NULL };
 static const char *termcmd[]  = { "st", NULL };
+static const char *amixcmd[]  = { "st", "docker", "exec", "-it", "snd", "amix.sh", NULL };
+static const char *patchcmd[] = { "st", "docker", "exec", "-it", "snd", "patch.sh", NULL };
+static const char *haltcmd[]  = { "sudo", "halt", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -86,6 +89,9 @@ static Key keys[] = {
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ MODKEY|ShiftMask,             XK_a,      spawn,          {.v = amixcmd } },
+	{ MODKEY|ShiftMask,             XK_z,      spawn,          {.v = patchcmd } },
+	{ MODKEY|ControlMask|ShiftMask, XK_q,      spawn,          {.v = haltcmd } },
 };
 
 /* button definitions */

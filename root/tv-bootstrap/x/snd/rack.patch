@@ -1,0 +1,1 @@
+{"alsa_in:capture_1":{"rack:sat-eq In #1":true},"alsa_in:capture_2":{"rack:sat-eq In #2":true},"rack:sat-eq Out #1":{"alsa_out:playback_1":true},"rack:sat-eq Out #2":{"alsa_out:playback_2":true}}

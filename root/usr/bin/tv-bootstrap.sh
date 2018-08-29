@@ -6,8 +6,9 @@ u=$1
 [[ -n "$u" ]] || { echo "usage: $0 <userlogin>" >&2; exit 64; }
 
 chsh -s /bin/bash || die "root shell"
-useradd -G audio,video,docker -m -d /home/x -s /bin/zsh x || die "user x"
-useradd -G wheel,audio,video,kvm,xbuilder,socklog,docker,x \
+groupadd shutdown || die "shutdown group"
+useradd -G audio,video,docker,shutdown -m -d /home/x -s /bin/zsh x || die "user x"
+useradd -G wheel,audio,video,kvm,xbuilder,socklog,docker,shutdown \
   -m -d "/home/$u" -s /bin/zsh "$u" || die "user $u"
 
 s="/home/$u/src"
@@ -39,4 +40,17 @@ rm -rf /tv-bootstrap
 
 chown -R "$u:$u" "/home/$u" || die "chown home $u"
 chown -R x:x /home/x || die "chown home x"
+
+rule="%shutdown ALL=(ALL) NOPASSWD: /usr/bin/halt, /usr/bin/poweroff, /usr/bin/reboot, \
+	/usr/bin/shutdown, /usr/bin/zzz, /usr/bin/ZZZ"
+
+tmp=$(mktemp) || die "mktemp"
+trap 'rm -f "$tmp"' EXIT
+
+cp -p /etc/sudoers "$tmp"
+echo "$rule" >> "$tmp"
+visudo -c -f "$tmp" || die "check sudoers"
+
+cp -p "$tmp" /etc/sudoers
+visudo -c || die "new sudoers"
 

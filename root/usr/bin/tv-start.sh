@@ -32,5 +32,5 @@ docker run -d --rm \
   --cap-add=sys_nice \
   --ulimit rtprio=99 \
   --name snd \
-  dedelala/snd:latest snd-up.sh
+  dedelala/snd:latest start.sh
 
