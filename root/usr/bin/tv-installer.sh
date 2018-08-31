@@ -58,7 +58,7 @@ mv "$s/kakoune/src/kak.debug" "$v/usr/bin/kak" || die "no kak"
 docker run -it --rm -v "$s/st:/src" -w /src dedelala/sucka:latest make \
   || die "build st"
 mv "$s/st/st" "$v/usr/bin/" || die "no st"
-tic -sx st.info || die "st terminfo"
+tic -sx "$s/st/st.info" || die "st terminfo"
 
 docker run -it --rm -v "$s/dwm:/src" -w /src dedelala/sucka:latest make \
   || die "build dwm"
