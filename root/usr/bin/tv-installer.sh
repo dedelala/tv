@@ -2,23 +2,28 @@
 
 die() { echo "oh noes: $* sad face"; exit 1; }
 
-host=$1
-[[ -n $host ]] || { echo "usage: $0 <hostname> <user> <disk>" >&2; exit 64; }
-disk=$2
-[[ -n $disk ]] || { echo "usage: $0 <hostname> <user> <disk>" >&2; exit 64; }
-user=$3
-[[ -n $user ]] || { echo "usage: $0 <hostname> <user> <disk>" >&2; exit 64; }
+v=/mnt/tv
+
+user=$1
+[[ -n $user ]] || { echo "usage: $0 <user> <hostname> <disk>" >&2; exit 64; }
+host=$2
+[[ -n $host ]] || { echo "usage: $0 <user> <hostname> <disk>" >&2; exit 64; }
+disk=$3
+[[ -n $disk ]] || { echo "usage: $0 <user> <hostname> <disk>" >&2; exit 64; }
 
 net=$(ip route list default |awk '{print $5}') || die "net iface"
 
 boot=${disk}2
-swap=${disk}3
-root=${disk}4
-v=/mnt/tv
+s=$(lsblk -nr "$boot") || die "sz $boot"
+bootsz=$(awk '{print $4}' <<< "$s") || die "sz $boot"
 
-bootsz=$(lsblk -nr "$boot" |awk '{print $4}') || die "sz $boot"
-swapsz=$(lsblk -nr "$swap" |awk '{print $4}') || die "sz $swap"
-rootsz=$(lsblk -nr "$root" |awk '{print $4}') || die "sz $root"
+swap=${disk}3
+s=$(lsblk -nr "$swap") || die "sz $swap"
+swapsz=$(awk '{print $4}' <<< "$s") || die "sz $swap"
+
+root=${disk}4
+s=$(lsblk -nr "$root") || die "sz $root"
+rootsz=$(awk '{print $4}' <<< "$s") || die "sz $root"
 
 echo "====== void installer settings ======"
 tee /tmp/.void-installer.conf <<!

@@ -18,7 +18,7 @@ dir.
 
 - Boot the live image.
 - Partition your disk according to the following layout or edit `root/usr/bin/tv-installer.sh` to suit your needs.
-- Run `tv-installer.sh <hostname> <user> <disk>`.
+- Run `tv-installer.sh <user> <hostname> <disk>`.
 - You will be prompted for the root password.
 
 
@@ -76,8 +76,4 @@ security.sandbox.content.write_path_whitelist   /dev/snd/
 
 Source [John Tsiombikas](https://codelab.wordpress.com/2017/12/11/firefox-drops-alsa-apulse-to-the-rescue/).
 
-
-## sound
-
-The patch configuration is built in to the container in snd-up.sh, that may need to change.
 
