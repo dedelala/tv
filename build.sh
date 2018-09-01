@@ -8,7 +8,7 @@ docker build -t tv-mklive:latest "$d/mklive" || die "docker build"
 
 pkgs="socklog-void linux-firmware alsa-lib docker fortune-mod git zsh unzip zip"
 pkgs="$pkgs xorg-minimal xf86-video-nouveau xhost xinit xorg-fonts xrandr"
-pkgs="$pkgs dialog grub libXinerama libXft"
+pkgs="$pkgs dialog grub libXinerama libXft libEGL"
 
 docker run --privileged -it --rm \
   -v "$d/root:/tv/root" \
