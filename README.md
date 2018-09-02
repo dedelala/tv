@@ -1,25 +1,29 @@
 # tv!
 
-WORK IN PROGRESS
+Problem: I just wanna watch stuff, on my tv, using a web browser.
+It should be simple, efficient, and also sound good.
 
-It's a Void Linux setup for a tv computer. It doesn't do actual tv it's just a
-web browser and a sound setup really. You'd probably need to change a bunch of
-stuff depending on your setup.  This one uses nvidia video and intel sound
-output.
+Solution: Void Linux, dwm, docker. Firefox and jack audio in containers.
+The system boots to a fullscreen web browser, no logins, no messing around.
+
+The setup is hard coupled to the `nouveau` video and `hda-intel` alsa drivers.
+It would be pretty easy to edit for other hardware.
 
 
-## iso
+## build
 
-Make a void live image with `build.sh`. Add any files to include to the `root/`
-dir.
+- Recommend adding your pubkey to `root/tv-bootstrap/u/.ssh/authorized_keys`.
+- Create a void live image with `build.sh`. You will need docker.
+- Output is saved to the `iso/` directory.
 
 
 ## install
 
 - Boot the live image.
-- Partition your disk according to the following layout or edit `root/usr/bin/tv-installer.sh` to suit your needs.
+- Your disk must be laid out as detailed in the following section.
 - Run `tv-installer.sh <user> <hostname> <disk>`.
 - You will be prompted for the root password.
+- Reboot and chill.
 
 
 ### disk layout
@@ -33,47 +37,24 @@ The `<disk>` is expected to be laid out as follows, eg for `/dev/sda`...
 ```
 
 
-## host packages
-
-- alsa-libs
-- docker
-- git
-- zsh
-- xorg-minimal
-- xf86-video-nouveau
-- xhost
-- xinit
-- xorg-fonts
-- xrandr
-
-
-## containers
-
-- fox, runs firefox using apulse
-- snd, runs jack and a calf lv2 host
-- sucka, builds st and dwm
-- kakao, builds kakoune
-
-
 ## host configuration
 
 - alsa loopback device is set to index 0 on the host
+- hda intel device is set to index 1
 - sv x runs startx as user x on startup
 - x's xinitrc starts dwm
 - dwm is patched to start fox and snd
 
 
-## firefox nonsense
+## containers
 
-Some config needs to be set on the first run to allow firefox to use alsa...
+Docker containers are built from this repository.
 
-```
-security.sandbox.content.level                  2
-security.sandbox.content.syscall_whitelist      16
-security.sandbox.content.read_path_whitelist    /dev/snd/,/root/.asoundrc
-security.sandbox.content.write_path_whitelist   /dev/snd/
-```
+- `dedelala/fox`, runs firefox using apulse
+- `dedelala/snd`, runs jack and a calf lv2 host
+- `dedelala/sucka`, builds st and dwm
+- `dedelala/kakao`, builds kakoune
 
-Source [John Tsiombikas](https://codelab.wordpress.com/2017/12/11/firefox-drops-alsa-apulse-to-the-rescue/).
+
 
 
