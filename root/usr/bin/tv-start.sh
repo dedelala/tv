@@ -1,5 +1,7 @@
 #!/bin/bash
 
+xset s 0 0
+xset dpms 0 0 0
 xhost +local:docker 2>&1
 
 docker run -d --rm \
